@@ -40,7 +40,7 @@ class Listing(models.Model):
     year = models.fields.IntegerField(
         blank=True,
         null=True,
-        validators=[MinValueValidator(1900), MaxLengthValidator(2023)],
+        validators=[MinValueValidator(1900), MaxValueValidator(2023)],
     )
     type = models.fields.CharField(choices=ListingType.choices, max_length=20)
     band = models.ForeignKey(Band, null=True, on_delete=models.SET_NULL)

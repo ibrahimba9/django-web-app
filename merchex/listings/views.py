@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
 
-from .forms import ContactUsForm
+from .forms import ContactUsForm, BandForm, ListingForm
 from .models import Band, Listing
 
 
@@ -21,6 +21,17 @@ def band_detail(request, band_id):
         return HttpResponse(
             f"Oops! No Band with the id {band_id} was found.", status=404
         )
+
+
+def band_create(request):
+    if request.method == "POST":
+        form = BandForm(request.POST)
+        if form.is_valid():
+            band = form.save()
+            return redirect("band-detail", band.id)
+    else:
+        form = BandForm()
+    return render(request, "listings/band_create.html", {"form": form})
 
 
 def about(request):
@@ -60,6 +71,17 @@ def listing_detail(request, listing_id):
         return HttpResponse(
             f"Oops! No Listing with the id {listing_id} was found.", status=404
         )
+
+
+def listing_create(request):
+    if request.method == "POST":
+        form = ListingForm(request.POST)
+        if form.is_valid():
+            listing = form.save()
+            return redirect("listing-detail", listing.id)
+    else:
+        form = ListingForm()
+    return render(request, "listings/listing_create.html", {"form": form})
 
 
 def page_not_found(request):
